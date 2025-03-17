@@ -1,5 +1,5 @@
-import RatingAndReview from "../models/RatingAndRaview.js";
-import Course from "../models/Course.js";
+import RatingAndReview from "../models/ratingAndRaview.model.js";
+import Course from "../models/course.model.js";
 import { mongoose } from "mongoose";
 import chalk from "chalk";
 

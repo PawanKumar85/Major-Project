@@ -5,14 +5,14 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 
 // Import Configurations
-import connectDB from "./config/database.js";
-import cloudinaryConnect from "./config/cloudinary.js";
+import connectDB from "./config/database.config.js";
+import cloudinaryConnect from "./config/cloudinary.config.js";
 
 // Import Routes
-import authRoutes from "./routes/User.js";
-import profileRoutes from "./routes/Profile.js";
-import courseRoutes from "./routes/Course.js";
-import paymentRoutes from "./routes/Payments.js";
+import authRoutes from "./routes/user.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
+import courseRoutes from "./routes/course.routes.js";
+import paymentRoutes from "./routes/payments.routes.js";
 
 // Load Environment Variables
 dotenv.config();

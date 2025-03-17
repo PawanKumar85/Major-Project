@@ -1,8 +1,10 @@
-import getRazorpayInstance from "../config/razorpay.js"; 
-import Course from "../models/Course.js";
-import User from "../models/User.js";
+import getRazorpayInstance from "../config/razorpay.config.js"; 
+import Course from "../models/course.model.js";
+import User from "../models/user.model.js";
+
 import { mailSender } from "../utils/mailSender.js";
 import { courseEnrollmentEmail } from "../mail/templates/courseEnrollmentEmail.js";
+
 import mongoose from "mongoose";
 import chalk from "chalk";
 import dotenv from "dotenv";

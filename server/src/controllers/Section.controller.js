@@ -1,5 +1,5 @@
-import Section from "../models/Section.js";
-import Course from "../models/Course.js";
+import Section from "../models/section.model.js";
+import Course from "../models/course.model.js";
 import chalk from "chalk";
 // CREATE a new section
 

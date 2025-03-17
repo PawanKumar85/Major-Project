@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../models/user.model.js";
 import { mailSender } from "../utils/mailSender.js";
 import bcrypt from "bcryptjs";
 import chalk from "chalk";
@@ -24,7 +24,7 @@ export const resetPasswordToken = async (req, res) => {
       { new: true }
     );
 
-    const resetURL = `http://localhost:3000/update-password/${token}`;
+    const resetURL = `http://localhost:5173/update-password/${token}`;
 
     await mailSender(
       email,

@@ -1,12 +1,15 @@
-import Profile from "../models/Profile.js";
-import User from "../models/User.js";
+import Profile from "../models/profile.model.js";
+import User from "../models/user.model.js";
 import { uploadImageToCloudinary } from "../utils/imageUploader.js";
 import chalk from "chalk";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Method for updating a profile
 export const updateProfile = async (req, res) => {
   try {
-    const { dateOfBirth = "", about = "", contactNumber } = req.body;
+    const { dateOfBirth = "", about = "", contactNumber, gender } = req.body;
     const id = req.user.id;
 
     // Find the profile by id
@@ -25,6 +28,7 @@ export const updateProfile = async (req, res) => {
     }
 
     // Update the profile fields
+    profile.gender = gender;
     profile.dateOfBirth = dateOfBirth;
     profile.about = about;
     profile.contactNumber = contactNumber;
@@ -79,7 +83,7 @@ export const getAllUserDetails = async (req, res) => {
     const id = req.user.id;
     const userDetails = await User.findById(id)
       .populate("additionalDetails")
-      .exec();
+      .lean();
 
     if (!userDetails) {
       return res

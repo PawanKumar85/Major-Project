@@ -1,6 +1,6 @@
-import Course from "../models/Course.js";
-import Category from "../models/Category.js";
-import User from "../models/User.js";
+import Course from "../models/course.model.js";
+import Category from "../models/category.model.js";
+import User from "../models/user.model.js";
 import { uploadImageToCloudinary } from "../utils/imageUploader.js";
 import chalk from "chalk";
 

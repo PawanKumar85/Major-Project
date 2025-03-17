@@ -1,6 +1,6 @@
 // Import necessary modules
-import Section from "../models/Section.js";
-import SubSection from "../models/Subsection.js";
+import Section from "../models/section.model.js";
+import SubSection from "../models/subSection.model.js";
 import { uploadImageToCloudinary } from "../utils/imageUploader.js";
 import chalk from "chalk";
 

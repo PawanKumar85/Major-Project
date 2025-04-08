@@ -24,6 +24,7 @@ export const signup = async (req, res) => {
       contactNumber,
       otp,
     } = req.body;
+
     if (
       !firstName ||
       !lastName ||
@@ -55,6 +56,7 @@ export const signup = async (req, res) => {
     }
 
     const approved = accountType === "Instructor" ? false : true;
+
     const profileDetails = await Profile.create({
       gender: null,
       dateOfBirth: null,
@@ -147,6 +149,7 @@ export const sendotp = async (req, res) => {
         .json({ success: false, message: "User already registered." });
     }
     let otp;
+
     do {
       otp = otpGenerator.generate(6, {
         upperCaseAlphabets: false,
@@ -154,6 +157,7 @@ export const sendotp = async (req, res) => {
         specialChars: false,
       });
     } while (await OTP.findOne({ otp }));
+
     await OTP.create({ email, otp });
     res
       .status(200)
@@ -218,5 +222,24 @@ export const changePassword = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, message: "Error updating password." });
+  }
+};
+
+// Logout Controller
+export const logout = async (req, res) => {
+  try {
+    // Clear the token cookie
+    res.clearCookie("token");
+
+    return res.status(200).json({
+      success: true,
+      message: "Logged out successfully.",
+    });
+  } catch (error) {
+    console.error(chalk.red("Logout error:", error.message));
+    return res.status(500).json({
+      success: false,
+      message: "Error while logging out. Please try again.",
+    });
   }
 };

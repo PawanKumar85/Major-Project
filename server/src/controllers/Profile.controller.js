@@ -50,9 +50,20 @@ export const updateProfile = async (req, res) => {
   }
 };
 
+// TODO: Cronjob
 export const deleteAccount = async (req, res) => {
   try {
     const id = req.user.id;
+
+    if (
+      req.user.accountType === "Admin" ||
+      req.user.accountType === "Instructor"
+    ) {
+      return res.status(403).json({
+        success: false,
+        messsage: "You Can't Delete Your Account. Forbidden Request",
+      });
+    }
 
     const user = await User.findById({ _id: id });
     if (!user) {

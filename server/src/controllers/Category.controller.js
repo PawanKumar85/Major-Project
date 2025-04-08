@@ -68,12 +68,14 @@ export const categoryPageDetails = async (req, res) => {
       });
     }
 
-    //get coursesfor different categories
+    //get courses for different categories
     const differentCategories = await Category.find({
       _id: { $ne: categoryId },
     })
       .populate("courses")
       .exec();
+
+    //TODO: Top Selling Courses
 
     return res.status(200).json({
       success: true,

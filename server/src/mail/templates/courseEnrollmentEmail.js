@@ -77,9 +77,9 @@ export const courseEnrollmentEmail = (courseName, name) => {
           <p>Hello ${name},</p>
           <p>You have successfully enrolled in the course <span style="font-weight: bold;">"${courseName}"</span>.</p>
           <p>Start learning today by accessing your dashboard:</p>
-          <a class="cta" href="https://studynotion-edtech-project.vercel.app/dashboard">Go to Dashboard</a>
+          <a class="cta" href="#">Go to Dashboard</a>
         </div>
-        <div class="support">For any questions, visit the <a href="https://support.google.com" target="_blank">Edusphare Help Center</a>.</div>
+        <div class="support">For any questions, visit the <a href="#" target="_blank">Edusphare Help Center</a>.</div>
         <div class="footer">© 2025 Eduspahe Edu Tech, Kanpur, Mandhana Uttar Pradesh India</div>
       </div>
     </body>

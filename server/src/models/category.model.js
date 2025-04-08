@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-// Define the Tags schema
 const categorySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -15,6 +14,5 @@ const categorySchema = new mongoose.Schema({
   ],
 });
 
-// Export the Tags model
 const Category = mongoose.model("Category", categorySchema);
 export default Category;

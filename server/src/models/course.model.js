@@ -55,6 +55,5 @@ const coursesSchema = new mongoose.Schema({
   },
 });
 
-// Export the Courses model
 const Course = mongoose.model("Course", coursesSchema);
 export default Course;

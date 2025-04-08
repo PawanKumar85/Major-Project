@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import { mailSender } from "../utils/mailSender.js";
-import bcrypt from "bcryptjs";
 import chalk from "chalk";
+import crypto from "crypto";
 
 export const resetPasswordToken = async (req, res) => {
   try {
@@ -19,7 +19,7 @@ export const resetPasswordToken = async (req, res) => {
       { email: email },
       {
         token: token,
-        resetPasswordExpires: Date.now() + 3600000,
+        resetPasswordExpires: Date.now() + 36000,
       },
       { new: true }
     );
@@ -28,7 +28,7 @@ export const resetPasswordToken = async (req, res) => {
 
     await mailSender(
       email,
-      "Password Reset",
+      "Password Reset || EduSphare",
       `Your link for password reset is ${resetURL}. Click the link to reset your password.`
     );
 
@@ -56,10 +56,12 @@ export const resetPassword = async (req, res) => {
     if (confirmPassword !== password) {
       return res.json({
         success: false,
-        message: "Password and Confirm Password Does not Match",
+        message: "Password and Confirm Password Do Not Match",
       });
     }
+
     const userDetails = await User.findOne({ token: token });
+
     if (!userDetails) {
       return res.json({
         success: false,
@@ -68,31 +70,32 @@ export const resetPassword = async (req, res) => {
     }
 
     // Check if token is expired
-    if (!(userDetails.resetPasswordExpires < Date.now())) {
+    if (userDetails.resetPasswordExpires < Date.now()) {
       return res.status(403).json({
         success: false,
-        message: `Token is Expired, Please Regenerate Your Token`,
+        message: "Token has Expired. Please Regenerate Your Token.",
       });
     }
-    const encryptedPassword = await bcrypt.hash(password, 10);
-    await User.findOneAndUpdate(
-      { token: token },
-      { password: encryptedPassword },
-      { new: true }
-    );
+
+    // Set the new password (this will trigger the pre-save hook)
+    userDetails.password = password;
+    userDetails.token = undefined;
+    userDetails.resetPasswordExpires = undefined;
+
+    await userDetails.save();
 
     console.log(
       chalk.green(`Password reset successful for user ${userDetails.email}`)
     );
     res.json({
       success: true,
-      message: `Password Reset Successful`,
+      message: "Password Reset Successful",
     });
   } catch (error) {
     return res.json({
       error: error.message,
       success: false,
-      message: `Some Error in Updating the Password`,
+      message: "Some Error Occurred While Updating the Password",
     });
   }
 };

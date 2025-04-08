@@ -74,7 +74,7 @@ export const otpTemplate = (otp) => {
 		  <div class="otp">${otp}</div>
 		  <p>This code will expire in 5 minutes. If you didn’t request this code, you can ignore this email.</p>
 		</div>
-		<div class="support">If you have any questions, visit the <a href="https://support.google.com" target="_blank">Edusphare Help Center</a>.</div>
+		<div class="support">If you have any questions, visit the <a href="#" target="_blank">Edusphare Help Center</a>.</div>
 		<div class="footer">© 2025 Eduspahe Edu Tech, Kanpur, Mandhana Uttar Pradesh India</div>
 	  </div>
 	</body>

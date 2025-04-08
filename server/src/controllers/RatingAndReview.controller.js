@@ -8,8 +8,10 @@ export const createRating = async (req, res) => {
   try {
     //get user id
     const userId = req.user.id;
-    //fetchdata from req body
+
+    //fetch data from req body
     const { rating, review, courseId } = req.body;
+
     //check if user is enrolled or not
     const courseDetails = await Course.findOne({
       _id: courseId,
@@ -22,6 +24,7 @@ export const createRating = async (req, res) => {
         message: "Student is not enrolled in the course",
       });
     }
+
     //check if user already reviewed the course
     const alreadyReviewed = await RatingAndReview.findOne({
       user: userId,
@@ -34,6 +37,7 @@ export const createRating = async (req, res) => {
         message: "Course is already reviewed by the user",
       });
     }
+    
     //create rating and review
     const ratingReview = await RatingAndReview.create({
       rating,

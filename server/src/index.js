@@ -25,14 +25,9 @@ const PORT = process.env.PORT || 4000;
 connectDB();
 
 // ✅ Middlewares
-app.use(express.json()); 
-app.use(cookieParser()); 
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true,
-  })
-);
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors({ origin: "http://localhost:5173" }));
 
 // ✅ File Upload Middleware
 app.use(

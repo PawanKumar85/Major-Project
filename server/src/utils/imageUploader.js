@@ -16,8 +16,8 @@ export const uploadImageToCloudinary = async (
     const options = {
       folder,
       resource_type: "auto",
-      ...(height && { height }), // ✅ Add height only if provided
-      ...(quality && { quality }), // ✅ Add quality only if provided
+      ...(height && { height }), 
+      ...(quality && { quality }),
     };
 
     const result = await cloudinary.uploader.upload(file.tempFilePath, options);

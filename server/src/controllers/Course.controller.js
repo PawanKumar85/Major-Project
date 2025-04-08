@@ -55,7 +55,7 @@ export const createCourse = async (req, res) => {
       });
     }
 
-    // Check if the given tag is valid
+    // Check if the given category is valid
     const categoryDetails = await Category.findById(category);
     if (!categoryDetails) {
       return res.status(404).json({
@@ -96,6 +96,7 @@ export const createCourse = async (req, res) => {
       },
       { new: true }
     );
+
     // Add the new course to the Categories
     await Category.findByIdAndUpdate(
       { _id: category },
@@ -106,6 +107,7 @@ export const createCourse = async (req, res) => {
       },
       { new: true }
     );
+
     // Return the new course and a success message
     res.status(200).json({
       success: true,
@@ -156,6 +158,7 @@ export const getCourseDetails = async (req, res) => {
   try {
     //get id
     const { courseId } = req.body;
+    console.log(courseId);
     //find course details
     const courseDetails = await Course.find({ _id: courseId })
       .populate({
@@ -165,7 +168,7 @@ export const getCourseDetails = async (req, res) => {
         },
       })
       .populate("category")
-      //.populate("ratingAndreviews")
+      // .populate("ratingAndreviews")
       .populate({
         path: "courseContent",
         populate: {

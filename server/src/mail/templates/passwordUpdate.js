@@ -66,7 +66,7 @@ export const passwordUpdated = (email, name) => {
                   <p>Your password has been successfully updated for the email <strong>${email}</strong>.</p>
                   <p>If you did not request this password change, please contact us immediately to secure your account.</p>
               </div>
-              <div class="support">If you have any questions, visit the <a href="https://support.google.com" target="_blank">Edusphare Help Center</a>.</div>
+              <div class="support">If you have any questions, visit the <a href="#" target="_blank">Edusphare Help Center</a>.</div>
               <div class="footer">© 2025 Eduspahe Edu Tech, Kanpur, Mandhana Uttar Pradesh India</div>
           </div>
       </body>

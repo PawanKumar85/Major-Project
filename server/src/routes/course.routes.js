@@ -28,7 +28,7 @@ router
 
 // ✅ Fetch Courses
 router.get("/courses", CourseController.getAllCourses);
-router.get("/courses/:id", CourseController.getCourseDetails); // 🛠 Used RESTful param-based URL
+router.post("/courses", CourseController.getCourseDetails); // 🛠 Used RESTful param-based URL
 
 
 // 📌 Category Routes (Admin Only)

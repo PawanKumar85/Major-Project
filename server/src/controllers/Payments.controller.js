@@ -108,7 +108,6 @@ export const verifySignature = async (req, res) => {
 
     try {
       //fulfil the action
-
       //find the course and enroll the student in it
       const enrolledCourse = await Course.findOneAndUpdate(
         { _id: courseId },
@@ -125,7 +124,7 @@ export const verifySignature = async (req, res) => {
 
       console.log(chalk.green(enrolledCourse));
 
-      //find the student andadd the course to their list enrolled courses me
+      //find the student and add the course to their list enrolled courses me
       const enrolledStudent = await User.findOneAndUpdate(
         { _id: userId },
         { $push: { courses: courseId } },

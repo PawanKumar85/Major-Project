@@ -13,6 +13,7 @@ const InstructorSection = () => {
             src="https://images.pexels.com/photos/5212320/pexels-photo-5212320.jpeg"
             alt="Instructor teaching online"
             className="shadow-[0px_0px_0px_8px_#fff] rounded-md"
+            loading="lazy"
           />
         </div>
 

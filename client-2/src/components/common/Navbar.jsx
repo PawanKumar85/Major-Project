@@ -18,6 +18,7 @@ function Navbar() {
 
   const [subLinks, setSubLinks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -50,9 +51,9 @@ function Navbar() {
           </span>
         </Link>
 
-        <div className="flex items-center gap-4">
-          {/* Navigation links */}
-          <nav className="hidden md:block">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-4">
+          <nav>
             <ul className="flex gap-x-6 text-richblack-25">
               {NavbarLinks.map((link, index) => (
                 <li key={index} className="relative group">
@@ -90,7 +91,9 @@ function Navbar() {
                               </Link>
                             ))
                         ) : (
-                          <p className="text-center text-sm">No Courses Found</p>
+                          <p className="text-center text-sm">
+                            No Courses Found
+                          </p>
                         )}
                       </div>
                     </div>
@@ -113,7 +116,7 @@ function Navbar() {
           </nav>
 
           {/* Cart / Auth Buttons / Profile */}
-          <div className="hidden items-center md:flex gap-3">
+          <div className="flex items-center gap-3">
             {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
               <Link to="/dashboard/cart" className="relative">
                 <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
@@ -142,11 +145,98 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <button className="mr-4 p-2 rounded-md hover:bg-richblack-700 transition md:hidden">
+        {/* Mobile Hamburger Icon */}
+        <button
+          className="md:hidden p-2 rounded-md hover:bg-richblack-700 transition"
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+        >
           <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
         </button>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="absolute top-16 left-0 z-40 w-full bg-richblack-900 px-6 py-4 md:hidden">
+          <ul className="flex flex-col gap-4 text-richblack-25">
+            {NavbarLinks.map((link, index) => (
+              <li key={index}>
+                {link.title === "Catalog" ? (
+                  <div>
+                    <p className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                      {link.title}
+                      <BsChevronDown />
+                    </p>
+                    <div className="ml-4 flex flex-col gap-2 text-sm">
+                      {loading ? (
+                        <p>Loading...</p>
+                      ) : subLinks && subLinks.length ? (
+                        subLinks
+                          .filter((sub) => sub?.courses?.length > 0)
+                          .map((subLink, i) => (
+                            <Link
+                              to={`/catalog/${subLink.name
+                                .split(" ")
+                                .join("-")
+                                .toLowerCase()}`}
+                              key={i}
+                              className="hover:text-blue-200"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              {subLink.name}
+                            </Link>
+                          ))
+                      ) : (
+                        <p>No Courses Found</p>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    to={link.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="hover:text-blue-200"
+                  >
+                    {link.title}
+                  </Link>
+                )}
+              </li>
+            ))}
+
+            {/* Cart & Auth in mobile */}
+            {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
+              <Link to="/dashboard/cart" className="relative">
+                <div className="flex items-center gap-2">
+                  <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
+                  {totalItems > 0 && (
+                    <span className="grid h-5 w-5 place-items-center rounded-full bg-richblack-600 text-xs font-bold text-blue-200">
+                      {totalItems}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            )}
+            {!token && (
+              <>
+                <Link to="/login">
+                  <button className="w-full mt-2 rounded-md border border-richblack-700 bg-richblack-800 px-4 py-2 text-sm text-richblack-100 hover:bg-richblack-700">
+                    Log in
+                  </button>
+                </Link>
+                <Link to="/signup">
+                  <button className="w-full mt-2 rounded-md border border-richblack-700 bg-richblack-800 px-4 py-2 text-sm text-richblack-100 hover:bg-richblack-700">
+                    Sign up
+                  </button>
+                </Link>
+              </>
+            )}
+            {token && (
+              <div className="mt-2">
+                <ProfileDropdown />
+              </div>
+            )}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

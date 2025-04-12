@@ -8,7 +8,9 @@ const CourseCard = ({ cardData, currentCard, setCurrentCard }) => {
   return (
     <div
       className={`w-[360px] lg:w-[30%] ${
-        isActive ? "bg-white shadow-[12px_12px_0_0] shadow-blue-200" : "bg-richblack-800"
+        isActive
+          ? "bg-white shadow-[12px_12px_0_0] shadow-blue-200"
+          : "bg-richblack-800"
       } text-richblack-25 h-[300px] box-border cursor-pointer transition-all duration-200`}
       onClick={() => setCurrentCard(cardData?.heading)}
     >
@@ -16,7 +18,9 @@ const CourseCard = ({ cardData, currentCard, setCurrentCard }) => {
       <div className="border-b-[2px] border-richblack-400 border-dashed h-[80%] p-6 flex flex-col gap-3">
         <h3
           className={`text-[20px] font-semibold ${
-            isActive ? "text-richblack-800" : "text-richblack-25"
+            isActive
+              ? "text-richblack-800"
+              : "bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text"
           }`}
         >
           {cardData?.heading}

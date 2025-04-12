@@ -1,45 +1,73 @@
-// Icons Import
+// Core Imports
+import { useEffect, useRef, Suspense, lazy } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-// Image and Video Import
+// Assets
 import Banner from "../assets/Images/banner2.mp4";
-// Component Imports
-import Footer from "../components/common/Footer";
-import ReviewSlider from "../components/common/ReviewSlider";
-import CTAButton from "../components/core/HomePage/Button";
-import CodeBlocks from "../components/core/HomePage/CodeBlocks";
-import ExploreMore from "../components/core/HomePage/ExploreMore";
-import HighlightText from "../components/core/HomePage/HighlightText";
-import InstructorSection from "../components/core/HomePage/InstructorSection";
-import LearningLanguageSection from "../components/core/HomePage/LearningLanguageSection";
-import TimelineSection from "../components/core/HomePage/TimelineSection";
-import { TypeAnimation } from "react-type-animation";
+
+// Lazy Components
+const Footer = lazy(() => import("../components/common/Footer"));
+const ReviewSlider = lazy(() => import("../components/common/ReviewSlider"));
+const CTAButton = lazy(() => import("../components/core/HomePage/Button"));
+const CodeBlocks = lazy(() => import("../components/core/HomePage/CodeBlocks"));
+const ExploreMore = lazy(() =>
+  import("../components/core/HomePage/ExploreMore")
+);
+const HighlightText = lazy(() =>
+  import("../components/core/HomePage/HighlightText")
+);
+const InstructorSection = lazy(() =>
+  import("../components/core/HomePage/InstructorSection")
+);
+const LearningLanguageSection = lazy(() =>
+  import("../components/core/HomePage/LearningLanguageSection")
+);
+const TimelineSection = lazy(() =>
+  import("../components/core/HomePage/TimelineSection")
+);
 
 const title =
   "Our online coding courses offer flexible learning designed for your lifestyle. Study at your own pace, access comprehensive learning materials, engage in hands-on projects, and receive personalized feedback from experienced instructors.";
 
 function Home() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && videoRef.current) {
+          videoRef.current.load();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) observer.unobserve(videoRef.current);
+    };
+  }, []);
+
   return (
     <div>
       {/* Section 1 */}
       <div className="relative mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 text-white">
-        {/* Heading */}
-
+        {/* Hero Section */}
         <div className="flex flex-col-reverse items-center justify-between gap-10 lg:flex-row">
-          {/* Text Content */}
+          {/* Left Content */}
           <div className="flex flex-col items-center lg:items-start lg:w-1/2">
-            {/* Heading */}
             <div className="mt-10 text-center text-4xl font-semibold lg:text-left">
               Empower Your Future with <HighlightText text={"Coding Skills"} />
             </div>
 
-            {/* Sub Heading */}
             <div className="mt-4 w-[90%] text-center text-lg font-bold text-richblack-300 lg:text-left">
               {title}
             </div>
 
-            {/* CTA Buttons */}
             <div className="mt-8 flex flex-row gap-7">
               <CTAButton active={true} linkto={"/signup"}>
                 Learn More
@@ -50,21 +78,23 @@ function Home() {
             </div>
           </div>
 
-          {/* Video */}
+          {/* Video Section */}
           <div className="mx-3 my-7 w-full max-w-[500px] shadow-[10px_-5px_50px_-5px] shadow-blue-200">
             <video
+              ref={videoRef}
               className="w-full rounded-md shadow-[20px_20px_rgba(255,255,255)]"
               muted
               loop
               autoPlay
               playsInline
+              preload="none"
             >
               <source src={Banner} type="video/mp4" />
             </video>
           </div>
         </div>
 
-        {/* Code Section 1  */}
+        {/* Code Block Section 1 */}
         <div className="mt-10">
           <CodeBlocks
             position={"lg:flex-row-reverse"}
@@ -97,7 +127,7 @@ function Home() {
           />
         </div>
 
-        {/* Code Section 2 */}
+        {/* Code Block Section 2 */}
         <div className="relative w-full">
           <CodeBlocks
             position={"lg:flex-row"}
@@ -107,7 +137,7 @@ function Home() {
               </div>
             }
             subheading={
-              "Dive into hands-on coding from day one. Our platform is designed to get you building real-world projects as you learn, with step-by-step guidance and expert support. Whether you're a beginner or looking to sharpen your skills, we make the journey engaging, practical, and focused on real results."
+              "Dive into hands-on coding from day one. Our platform is designed to get you building real-world projects as you learn, with step-by-step guidance and expert support."
             }
             ctabtn1={{
               btnText: "Continue Lesson",
@@ -127,14 +157,15 @@ function Home() {
           />
         </div>
 
-        {/* Explore Section */}
-        <ExploreMore />
+        {/* Explore More Section */}
+        <Suspense fallback={<div>Loading timeline...</div>}>
+          <ExploreMore />
+        </Suspense>
       </div>
 
       {/* Section 2 */}
       <div className="bg-richblack-900 text-richblack-200">
         <div className=" h-[320px]">
-          {/* Explore Full Catagory Section */}
           <div className="mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8">
             <div className="lg:h-[150px]"></div>
             <div className="flex flex-row gap-7 text-white lg:mt-8">
@@ -152,15 +183,13 @@ function Home() {
         </div>
 
         <div className="mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 ">
-          {/* Job that is in Demand - Section 1 */}
+          {/* Demand Section */}
           <div className="mb-10 mt-[-50px] flex flex-col justify-between gap-7 lg:mt-20 lg:flex-row lg:items-center lg:gap-0">
-            {/* Left Text Section */}
             <div className="text-4xl font-semibold lg:w-[45%]">
               Get the skills you need for a{" "}
               <HighlightText text={"job that is in demand."} />
             </div>
 
-            {/* Right Description + Button */}
             <div className="flex flex-col gap-6 lg:w-[45%]">
               <p className="text-base text-richblack-300">
                 The modern learner writes their own rules. With{" "}
@@ -174,28 +203,38 @@ function Home() {
             </div>
           </div>
 
-          {/* Timeline Section - Section 2 */}
-          <TimelineSection />
+          {/* Timeline Section */}
+          <Suspense fallback={<div>Loading timeline...</div>}>
+            <TimelineSection />
+          </Suspense>
 
-          {/* Learning Language Section - Section 3 */}
-          <LearningLanguageSection />
+          {/* Learning Language Section */}
+          <Suspense fallback={<div>Loading languages...</div>}>
+            <LearningLanguageSection />
+          </Suspense>
         </div>
       </div>
 
       {/* Section 3 */}
       <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
-        {/* Become a instructor section */}
-        <InstructorSection />
+        {/* Instructor Section */}
+        <Suspense fallback={<div>Loading instructors...</div>}>
+          <InstructorSection />
+        </Suspense>
 
-        {/* Reviws from Other Learner */}
+        {/* Reviews */}
         <h1 className="text-center text-4xl font-semibold mt-8">
           Reviews from other learners
         </h1>
-        <ReviewSlider />
+        <Suspense fallback={<div>Loading reviews...</div>}>
+          <ReviewSlider />
+        </Suspense>
       </div>
 
       {/* Footer */}
-      <Footer />
+      <Suspense fallback={<div>Loading footer...</div>}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

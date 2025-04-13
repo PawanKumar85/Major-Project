@@ -1,12 +1,12 @@
-import { FcGoogle } from "react-icons/fc"
-import { useSelector } from "react-redux"
-
-import frameImg from "../../../assets/Images/frame.png"
-import LoginForm from "./LoginForm"
-import SignupForm from "./SignupForm"
-
+import { FcGoogle } from "react-icons/fc";
+import { useSelector } from "react-redux";
+import { lazy, Suspense } from "react";
+import Spinner from "../../spinner/Spinner";
+// import frameImg from "../../../assets/Images/frame.png";
+const SignupForm = lazy(() => import("./SignupForm"));
+const LoginForm = lazy(() => import("./LoginForm"));
 function Template({ title, description1, description2, image, formType }) {
-  const { loading } = useSelector((state) => state.auth)
+  const { loading } = useSelector((state) => state.auth);
 
   return (
     <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
@@ -24,16 +24,11 @@ function Template({ title, description1, description2, image, formType }) {
                 {description2}
               </span>
             </p>
-            {formType === "signup" ? <SignupForm /> : <LoginForm />}
+            <Suspense fallback={<Spinner/>}>
+              {formType === "signup" ? <SignupForm /> : <LoginForm />}
+            </Suspense>
           </div>
           <div className="relative mx-auto w-11/12 max-w-[450px] md:mx-0">
-            <img
-              src={frameImg}
-              alt="Pattern"
-              width={558}
-              height={504}
-              loading="lazy"
-            />
             <img
               src={image}
               alt="Students"
@@ -46,7 +41,7 @@ function Template({ title, description1, description2, image, formType }) {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default Template
+export default Template;
